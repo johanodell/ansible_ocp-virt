@@ -5,7 +5,7 @@ This repo contains some stuff around ansible and OpenShift Virtualization
 
 First we need a credential. This token should be scoped but for now let's just add a cluster-admin scoped token.
 
-1. Add a ServiceAccount:  ```bash oc create sa awx-credential ```bash
+1. Add a ServiceAccount:  ```oc create sa awx-credential ```
 
 
 2. Add cluster-admin rights to the service account:  
