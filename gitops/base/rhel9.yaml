@@ -85,8 +85,8 @@ items:
         terminationGracePeriodSeconds: 180
         volumes:
         - dataVolume:
-            name: "$(VM_NAME)"
-          name: "$(VM_NAME)"
+            name: rhel9-vm
+          name: rhel9-vm
         - cloudInitNoCloud:
             userData: |-
               #cloud-config
