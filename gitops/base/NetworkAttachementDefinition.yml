@@ -6,7 +6,7 @@ metadata:
     labels:
       app.kubernetes.io/instance: vms
   name: labnet
-  namespace: kubevirt-gitops
+  namespace: 00-system1
 spec:
   config: '{"name":"labnet","type":"bridge","cniVersion":"0.3.1","bridge":"br1","macspoofchk":true,"ipam":{},"preserveDefaultVlan":false}'
 

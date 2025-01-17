@@ -1,0 +1,12 @@
+---
+apiVersion: tower.ansible.com/v1alpha1
+kind: AnsibleJob
+metadata:
+  generateName: demo-job-4 # generate a unique suffix per 'kubectl create'
+spec:
+  connection_secret: controller-access-admin
+  job_template_name: "gitops-post-config"
+  inventory: virtcluster # Inventory prompt on launch needs to be enabled
+
+  extra_vars: # Extra variables prompt on launch needs to be enabled
+    vm_name: "$(VM_NAME)"
