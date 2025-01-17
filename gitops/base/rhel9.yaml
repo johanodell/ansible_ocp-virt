@@ -14,18 +14,19 @@ items:
             "min": 1610612736
           }
         ]
+      argocd.argoproj.io/sync-wave: "0"
     labels:
-      app: "$(VM_NAME)"
+      app: rhel9-gitops1
       vm.kubevirt.io/template: rhel9-server-small
       vm.kubevirt.io/template.revision: "1"
       vm.kubevirt.io/template.version: v0.14.0
-    name: rhel9-vm
+    name: rhel9-gitops1
   spec:
     dataVolumeTemplates:
     - apiVersion: cdi.kubevirt.io/v1beta1
       kind: DataVolume
       metadata:
-        name: rhel9-vm
+        name: rhel9-gitops1
       spec:
         pvc:
           accessModes:
@@ -46,7 +47,7 @@ items:
           vm.kubevirt.io/os: rhel9
           vm.kubevirt.io/workload: server
         labels:
-          kubevirt.io/domain: "$(VM_NAME)"
+          kubevirt.io/domain: rhel9-gitops1
           kubevirt.io/size: small
           app: techupdate 
       spec:
@@ -59,7 +60,7 @@ items:
             disks:
             - disk:
                 bus: virtio
-              name: rhel9-vm
+              name: rhel9-gitops1
             - disk:
                 bus: virtio
               name: cloudinitdisk
@@ -85,8 +86,8 @@ items:
         terminationGracePeriodSeconds: 180
         volumes:
         - dataVolume:
-            name: rhel9-vm
-          name: rhel9-vm
+            name: rhel9-gitops1
+          name: rhel9-gitops1
         - cloudInitNoCloud:
             userData: |-
               #cloud-config
