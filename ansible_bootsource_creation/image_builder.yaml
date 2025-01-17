@@ -1,0 +1,23 @@
+---
+- name: Build RHEL image with Image Builder
+  hosts: rhel-virt-builder
+  become: true
+  vars:
+    rhel_image_update_host: false
+
+    rhel_image_git_remote_repo: https://github.com/johanodell/rhel-image.git
+    rhel_image_git_repo_checkout: main
+    rhel_image_blueprint: rhel-9-soe
+    rhel_image_output_type: qcow2
+    # Optional image filename to use instead of UUID
+    rhel_image_filename: ci-daily-rhel9-image.qcow2
+
+    # This is on the build host
+    rhel_image_download_dir: /tmp/images
+    # Fetch from the build host
+    rhel_image_fetch_image: false
+    # This is where this playbook runs
+    # rhel_image_fetch_directory: /tmp
+    rhel_image_remote_delete: false
+  roles:
+    - myllynen.rhel_image.rhel_image

@@ -1,0 +1,19 @@
+apiVersion: cdi.kubevirt.io/v1beta1
+kind: DataImportCron
+metadata:
+  name: rhel9-soe-image-cron
+  namespace: openshift-virtualization-os-images
+spec:
+  schedule: "0 0 * * 6"
+  managedDataSource: rhel9-soe
+  template:
+    spec:
+      source:
+        registry:
+          url: docker://quay.io/virt-corp/rhel9-soe:latest
+      storage:
+        resources:
+          requests:
+            storage: 30Gi
+  garbageCollect: Outdated
+  importsToKeep: 3

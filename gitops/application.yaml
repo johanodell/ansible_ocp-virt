@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vms
+  namespace: openshift-gitops
+spec:
+  destination:
+    namespace: 00-system1
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: gitops
+    repoURL: https://github.com/johanodell/ansible_ocp-virt.git
+    targetRevision: HEAD
+  syncPolicy:
+    automated: {}
+    syncOptions:
+    - CreateNamespace=true

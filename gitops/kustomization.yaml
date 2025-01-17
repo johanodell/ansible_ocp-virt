@@ -1,0 +1,4 @@
+resources:
+#- fedora.yaml
+- rhel9.yaml
+#- NetworkAttachementDefinition.yml
