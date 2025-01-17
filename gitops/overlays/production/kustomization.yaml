@@ -1,3 +1,22 @@
 resources:
-- rhel9.yaml
-- NetworkAttachementDefinition.yml
+  - ../../base
+
+# (1) Create or import our configMap that holds the real VM name
+configMapGenerator:
+  - name: global-vars
+    literals:
+      VM_NAME=rhel9-gitops1   # The real VM name you want
+
+# (2) Expose that VM_NAME as a Kustomize variable
+vars:
+  - name: VM_NAME
+    objref:
+      kind: ConfigMap
+      name: global-vars
+      apiVersion: v1
+    fieldref:
+      fieldPath: data.VM_NAME
+
+patchesStrategicMerge:
+  - patch-rhel9.yaml
+  - patch-ansible-job.yaml
