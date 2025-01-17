@@ -60,7 +60,7 @@ items:
             disks:
             - disk:
                 bus: virtio
-              name: root
+              name: rhel9-vm
             - disk:
                 bus: virtio
               name: cloudinitdisk
