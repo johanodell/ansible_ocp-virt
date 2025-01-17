@@ -33,7 +33,7 @@ items:
           resources:
             requests:
               storage: 30Gi
-          storageClassName: lvms-nvme-vg
+          storageClassName: test 
         source:
           pvc: 
             name: rhel9-soe
