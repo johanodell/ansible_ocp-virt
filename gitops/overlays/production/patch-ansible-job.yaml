@@ -2,7 +2,7 @@
 apiVersion: tower.ansible.com/v1alpha1
 kind: AnsibleJob
 metadata:
-  Name: ansible-job 
+  name: ansible-job 
   annotations:
     argocd.argoproj.io/sync-wave: "1"
 spec:
