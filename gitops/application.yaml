@@ -9,7 +9,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: gitops
+    path: gitops/overlays/production
     repoURL: https://github.com/johanodell/ansible_ocp-virt.git
     targetRevision: HEAD
   syncPolicy:
