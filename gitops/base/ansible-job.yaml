@@ -2,7 +2,7 @@
 apiVersion: tower.ansible.com/v1alpha1
 kind: AnsibleJob
 metadata:
-  generateName: demo-job-4 # generate a unique suffix per 'kubectl create'
+  Name: ansible-job
 spec:
   connection_secret: controller-access-admin
   job_template_name: "gitops-post-config"

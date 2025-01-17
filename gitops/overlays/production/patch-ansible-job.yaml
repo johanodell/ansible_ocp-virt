@@ -2,7 +2,7 @@
 apiVersion: tower.ansible.com/v1alpha1
 kind: AnsibleJob
 metadata:
-  generateName: REPLACE_ME_JOB # generate a unique suffix per 'kubectl create'
+  Name: ansible-job 
   annotations:
     argocd.argoproj.io/sync-wave: "1"
 spec:
