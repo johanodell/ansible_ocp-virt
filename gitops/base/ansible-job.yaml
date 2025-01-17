@@ -2,12 +2,13 @@
 apiVersion: tower.ansible.com/v1alpha1
 kind: AnsibleJob
 metadata:
-  name: ansible-job
+  name: rhel9-gitops1
+  namespace: aap
   annotations:
     argocd.argoproj.io/sync-wave: "1"
 spec:
   connection_secret: controller-access-admin
-  job_template_name: "gitops-post-config"
+  job_template_name: "push image 2 quay.io"
   inventory: virtcluster # Inventory prompt on launch needs to be enabled
 
   extra_vars: # Extra variables prompt on launch needs to be enabled

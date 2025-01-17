@@ -5,13 +5,13 @@ configMapGenerator:
 - name: global-vars
   behavior: merge
   literals:
-    - VM_NAME=rhel9-gitops1
+    - JOB_NAME=rhel9-gitops1
 
 # (2) Expose that VM_NAME as a Kustomize variable
 vars:
 - fieldref:
-    fieldPath: data.VM_NAME
-  name: VM_NAME
+    fieldPath: data.JOB_NAME
+  name: JOB_NAME
   objref:
     apiVersion: v1
     kind: ConfigMap
