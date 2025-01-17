@@ -5,7 +5,7 @@ resources:
 configMapGenerator:
   - name: global-vars
     literals:
-      VM_NAME=rhel9-gitops1   # The real VM name you want
+      - VM_NAME=rhel9-gitops1   # The real VM name you want
 
 # (2) Expose that VM_NAME as a Kustomize variable
 vars:
