@@ -2,7 +2,7 @@
 apiVersion: tower.ansible.com/v1alpha1
 kind: AnsibleJob
 metadata:
-  Name: ansible-job
+  name: ansible-job
 spec:
   connection_secret: controller-access-admin
   job_template_name: "gitops-post-config"
