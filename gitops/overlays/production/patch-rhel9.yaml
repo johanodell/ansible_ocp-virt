@@ -60,7 +60,7 @@ items:
             disks:
             - disk:
                 bus: virtio
-              name: "$(VM_NAME)"
+              name: root
             - disk:
                 bus: virtio
               name: cloudinitdisk
