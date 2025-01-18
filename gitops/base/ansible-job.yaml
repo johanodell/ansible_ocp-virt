@@ -11,5 +11,5 @@ spec:
   workflow_template_name: "gitops-post-config"
   inventory: virtcluster # Inventory prompt on launch needs to be enabled
 
-  vars: # Extra variables prompt on launch needs to be enabled
+  extra_vars: # Extra variables prompt on launch needs to be enabled
     vm_name: rhel9-gitops1-1
