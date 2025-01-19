@@ -2,7 +2,7 @@
 apiVersion: tower.ansible.com/v1alpha1
 kind: AnsibleJob
 metadata:
-  name: "$(JOB_NAME)"
+  name: rhel9-gitops1
   namespace: aap 
   annotations:
     argocd.argoproj.io/sync-wave: "1"
