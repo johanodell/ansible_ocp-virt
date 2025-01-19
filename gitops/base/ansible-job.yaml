@@ -1,10 +1,10 @@
 ---
 apiVersion: tower.ansible.com/v1alpha1
-#kind: AnsibleWorkflow
-kind: AnsibleJob
+kind: AnsibleWorkflow
+#kind: AnsibleJob
 metadata:
   name: rhel9-gitops1-1
-  namespace: aap
+  namespace: 00-system1
   annotations:
     argocd.argoproj.io/sync-wave: "1"
 spec:
