@@ -1,7 +1,7 @@
 ---
 apiVersion: tower.ansible.com/v1alpha1
-kind: AnsibleWorkflow
-#kind: AnsibleJob
+#kind: AnsibleWorkflow
+kind: AnsibleJob
 metadata:
   name: rhel9-gitops1-1
   namespace: aap
@@ -9,7 +9,8 @@ metadata:
     argocd.argoproj.io/sync-wave: "1"
 spec:
   connection_secret: controller-access-admin
-  workflow_template_name: "gitops-post-config"
+  #workflow_template_name: "gitops-post-config"
+  job_template_name: "gitops-rhsm"
   inventory: virtcluster # Inventory prompt on launch needs to be enabled
   extra_vars: # Extra variables prompt on launch needs to be enabled
     vm_name: rhel9-gitops1-1
