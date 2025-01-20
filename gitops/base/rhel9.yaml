@@ -95,5 +95,11 @@ items:
               password: redhat123!
               chpasswd: { expire: False }
           name: cloudinitdisk
+        readinessProbe:
+          tcpSocket:
+            port: 22
+          initialDelaySeconds: 5
+          timeoutSeconds: 2
+          periodSeconds: 5
 kind: List
 metadata: {}
