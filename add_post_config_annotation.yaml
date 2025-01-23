@@ -1,0 +1,16 @@
+---
+- name: Add post-config annotation
+  hosts: localhost
+  tasks:
+    - name: Patch "{{ vm_name }}" with a annotation
+      redhat.openshift_k8s:
+        state: present
+        namespace: "{{ vm_namespace }}"
+        api_version: kubevirt.io/v1
+        kind: VirtualMachine
+        name: "{{ vm_name }}"
+        merge_type: strategic
+        definition:
+          metadata:
+            annotations:
+              post-config-done: "true"
