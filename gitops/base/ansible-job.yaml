@@ -10,8 +10,8 @@ metadata:
 spec:
   extra_vars: # Extra variables prompt on launch needs to be enabled
     vm_name: rhel9-gitops1-1
-  connection_secret: controller-access-admin
-  workflow_template_name: "gitops-post-config"
+  connection_secret: controller-access
+  workflow_template_name: "gitops-post-configuraiton-workflow"
   #job_template_name: "gitops-rhsm"
-  inventory: virtcluster # Inventory prompt on launch needs to be enabled
+  inventory: openshift # Inventory prompt on launch needs to be enabled
   
