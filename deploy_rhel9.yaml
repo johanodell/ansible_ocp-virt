@@ -1,0 +1,110 @@
+---
+- name: Deploy RHEL VM in OpenShift Virtualization
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+    vm_name: my-rhel-vm
+    vm_namespace: my-vm-namespace
+    vm_disk_size: 30Gi
+    vm_cpu: 2
+    vm_mem: 4Gi
+    vm_instance_type: rhel9-server-medium
+    rhel_ver: rhel9
+    datasource_name: rhel9-soe      # Adjust as needed
+    datasource_namespace: openshift-virtualization-os-images
+
+  tasks:
+
+  - name: Create VM using kubevirt_vm module
+    redhat.openshift_virtualization.kubevirt_vm:
+      state: present
+      name: "{{ vm_name }}"
+      namespace: "{{ vm_namespace }}"
+      running: true
+      labels:
+        app: "{{ vm_name }}"
+        vm.kubevirt.io/template: "{{ vm_instance_type }}"
+        vm.kubevirt.io/template.namespace: openshift
+        flavor.template.kubevirt.io/medium: "true"
+        os.template.kubevirt.io/rhel9: "true"
+        workload.template.kubevirt.io/server: "true"
+      annotations:
+        template.kubevirt.io/provider: "Red Hat"
+        template.kubevirt.io/provider-url: "https://www.redhat.com"
+
+      data_volume_templates:
+        - metadata:
+            name: rootdisk
+          spec:
+            sourceRef:
+              kind: DataSource
+              name: "{{ datasource_name }}"
+              namespace: "{{ datasource_namespace }}"
+            storage:
+              accessModes:
+                - ReadWriteMany
+              resources:
+                requests:
+                  storage: "{{ vm_disk_size }}"
+
+      spec:
+        domain:
+          cpu:
+            sockets: 1
+            cores: "{{ vm_cpu | int }}"
+            threads: 1
+          resources:
+            requests:
+              memory: "{{ vm_mem }}"
+          devices:
+            disks:
+              - name: rootdisk
+                disk:
+                  bus: virtio
+              - name: cloudinitdisk
+                disk:
+                  bus: virtio
+            interfaces:
+              # Default interface using masquerade
+              - name: default
+                masquerade: {}
+
+              # Second interface that connects to a Linux bridge via Multus
+              - name: labnet
+                bridge: {}
+
+            rng: {}
+          features:
+            acpi: {}
+            smm:
+              enabled: true
+          firmware:
+            bootloader:
+              efi: {}
+          machine:
+            type: q35
+
+        # Volumes
+        volumes:
+          - name: rootdisk
+            dataVolume:
+              name: rootdisk
+          - name: cloudinitdisk
+            cloudInitNoCloud:
+              userData: |
+                #cloud-config
+                user: johan
+                password: redhat123 #notsecret
+                chpasswd:
+                  expire: false
+
+        # Networks
+        networks:
+          - name: default
+            pod: {}
+          - name: labnet
+            multus:
+              networkName: labnet
+
