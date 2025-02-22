@@ -1,10 +1,10 @@
 ---
 - name: Build, tag, and push container image to Quay
-  hosts: rhel-virt-builder 
+  hosts: rhel9-image-builder 
   become: true
   vars:
     qcow2_file_path: /tmp/images/ci-daily-rhel9-image.qcow2
-    container_image_name: quay.io/virt-corp/virt-corp-rhel9
+    container_image_name: quay.io/virt-corp/rhel9-soe
     container_image_tag: latest  #"{{ ansible_date_time.date | strftime('%Y-%m-%d') }}"
 
     quay_username: "{{ quay_username }}"
