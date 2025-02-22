@@ -53,7 +53,7 @@
         domain:
           cpu:
             sockets: 1
-            cores: "{{ vm_cpu | int }}"
+            cores: {{ vm_cpu | int }}
             threads: 1
           resources:
             requests:
