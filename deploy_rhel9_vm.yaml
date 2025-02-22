@@ -1,0 +1,92 @@
+---
+- name: Deploy RHEL VM in OpenShift Virtualization from a DataSource
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  vars:
+    # Variables for the VM
+    vm_name: my-rhel-vm
+    vm_namespace: my-namespace
+    vm_disk_size: 30Gi
+    vm_instance_type: standard
+    rhel_ver: rhel9   # Define the preference name if desired
+
+    # Variables for referencing the DataSource
+    data_source_name: rhel9-soe     # The DataSource name (e.g. "rhel9" or "my-custom-image-ds")
+    data_source_namespace: openshift-virtualization-os-images
+
+  tasks:
+    - name: Create a VirtualMachine that clones from a DataSource
+      redhat.openshift_virtualization.kubevirt_vm:
+        state: present
+        name: "{{ vm_name }}"
+        namespace: "{{ vm_namespace }}"
+        wait_timeout: 300
+        wait: true
+
+        labels:
+          app: test
+
+        # Optional: Instancetype and Preference
+        instancetype:
+          name: "{{ vm_instance_type }}"
+        preference:
+          name: "{{ rhel_ver }}"
+
+        # This DataVolume template clones from the DataSource
+        data_volume_templates:
+          - metadata:
+              name: "{{ vm_name }}-datavolume"
+            spec:
+              source:
+                pvc:
+                  name: "{{ data_source_name }}"
+                  namespace: "{{ data_source_namespace }}"
+              storage:
+                # Provide any storage configuration you want here
+                accessModes:
+                  - ReadWriteMany
+                resources:
+                  requests:
+                    storage: "{{ vm_disk_size }}"
+                storageClassName: ocs-storagecluster-ceph-rbd-virtualization
+                volumeMode: Block
+
+        # The VM spec itself
+        spec:
+          domain:
+            devices:
+              disks:
+                - name: rootdisk
+                  disk:
+                    bus: virtio
+              interfaces:
+                - name: default
+                  masquerade: {}
+                - name: vlan201
+                  bridge: {}
+            resources:
+              requests:
+                memory: 2Gi
+          networks:
+            - name: default
+              pod: {}
+            - name: vlan201
+              multus:
+                networkName: vlan201
+          volumes:
+            - dataVolume:
+                name: "{{ vm_name }}-datavolume"
+              name: rootdisk
+            - cloudInitNoCloud:
+                userData: |-
+                  #cloud-config
+                  user: johndoe
+                  password: blabla  #notsecret
+                  chpasswd: { expire: False }
+                  sudo: ALL=(ALL) NOPASSWD:ALL
+                  ssh_authorized_keys:
+                    - blabla
+              name: cloudinit
+

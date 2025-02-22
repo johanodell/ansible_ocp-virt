@@ -17,3 +17,6 @@ spec:
             storage: 30Gi
   garbageCollect: Outdated
   importsToKeep: 3
+  storageClassName: "ocs-storagecluster-ceph-rbd-virtualization"
+  volumeMode: Block
+  Source Format:  snapshot
