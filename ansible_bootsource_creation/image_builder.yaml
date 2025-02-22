@@ -1,6 +1,6 @@
 ---
 - name: Build RHEL image with Image Builder
-  hosts: rhel-virt-builder
+  hosts: rhel9-image-builder
   become: true
   vars:
     rhel_image_update_host: false
@@ -18,6 +18,6 @@
     rhel_image_fetch_image: false
     # This is where this playbook runs
     # rhel_image_fetch_directory: /tmp
-    rhel_image_remote_delete: false
+    rhel_image_remote_delete: true
   roles:
     - myllynen.rhel_image.rhel_image
