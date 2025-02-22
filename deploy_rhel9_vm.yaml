@@ -10,6 +10,7 @@
     vm_namespace: my-namespace
     vm_disk_size: 30Gi
     vm_instance_type: standard
+    vm_preference: rhel.9
     rhel_ver: rhel9   # Define the preference name if desired
 
     # Variables for referencing the DataSource
@@ -32,7 +33,7 @@
         instancetype:
           name: "{{ vm_instance_type }}"
         preference:
-          name: "{{ rhel_ver }}"
+          name: "{{ vm_preference }}"
 
         # This DataVolume template clones from the DataSource
         data_volume_templates:
