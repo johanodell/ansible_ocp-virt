@@ -33,7 +33,7 @@
           os.template.kubevirt.io/rhel9.3: "true"
           os.template.kubevirt.io/rhel9.4: "true"
           os.template.kubevirt.io/rhel9.5: "true"
-          workload.template.kubevirt.io/server: "true"
+          workload.template.kubevirt.io/server: "false"
         annotations:
           template.kubevirt.io/provider: "virt-corp"
           template.kubevirt.io/provider-url: "https://www.virt-corp.com"
@@ -47,7 +47,7 @@
                 namespace: "{{ datasource_namespace }}" 
               storage:
                 accessModes:
-                  - ReadWriteOnce
+                  - ReadWriteMany
                 resources:
                   requests:
                     storage: "{{ vm_disk_size }}" 
