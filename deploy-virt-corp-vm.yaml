@@ -55,13 +55,13 @@
                     storage: "{{ vm_disk_size }}" 
         spec:
           domain:
-            cpu:
-              sockets: 1
-              cores: 1
-              threads: 1
-            resources:
-              requests:
-                memory: "{{ vm_mem }}"
+            #cpu:
+            #  sockets: 1
+            #  cores: 1
+            #  threads: 1
+            #resources:
+            #  requests:
+            #    memory: "{{ vm_mem }}"
             devices:
               disks:
                 - name: rootdisk
