@@ -37,6 +37,8 @@
         annotations:
           template.kubevirt.io/provider: "Red Hat"
           template.kubevirt.io/provider-url: "https://www.redhat.com"
+        instancetype:
+          name: u1.medium
         data_volume_templates:
           - metadata:
               name: rootdisk
