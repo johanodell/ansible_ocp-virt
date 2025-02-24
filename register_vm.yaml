@@ -1,0 +1,18 @@
+- name: Post config
+  hosts: "{{ vm_name }}"
+  become: true
+  vars:
+    rhc_auth:
+      login:
+        username: "{{ rhsm_user }}" # Use custom credential type https://www.redhat.com/en/blog/ansible-tower-feature-spotlight-custom-credentials
+        password: "{{ rhsm_password }}" # Use custom credential type https://www.redhat.com/en/blog/ansible-tower-feature-spotlight-custom-credentials
+    rhc_state: present
+    rhc_insights:
+      state: present
+      autoupdate: false
+      display_name: "{{ vm_name }}"
+      remediation: present
+    release: "rhel9"
+          
+  roles:
+    - redhat.rhel_system_roles.rhc
