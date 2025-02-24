@@ -11,8 +11,7 @@
     datasource_name: rhel9-soe   # Name of the DataSource
     datasource_namespace: 'openshift-virtualization-os-images'  # Namespace of the DataSource
     vm_disk_size: 30Gi
-    vm_mem: 2Gi
-    vm_cpu: 1
+    vm_instance_type:
     provisioning_timeout: 30
 
 
@@ -39,7 +38,7 @@
           template.kubevirt.io/provider: "Red Hat"
           template.kubevirt.io/provider-url: "https://www.redhat.com"
         instancetype:
-          name: u1.medium
+          name: "{{ vm_instance_type }}"
         data_volume_templates:
           - metadata:
               name: rootdisk
@@ -56,13 +55,6 @@
                     storage: "{{ vm_disk_size }}" 
         spec:
           domain:
-            #cpu:
-            #  sockets: 1
-            #  cores: 1
-            #  threads: 1
-            #resources:
-            #  requests:
-            #    memory: "{{ vm_mem }}"
             devices:
               disks:
                 - name: rootdisk
