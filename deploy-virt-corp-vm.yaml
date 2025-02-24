@@ -13,6 +13,7 @@
     vm_disk_size: 30Gi
     vm_mem: 2Gi
     vm_cpu: 1
+    provisioning_timeout: 30
 
 
   tasks:
