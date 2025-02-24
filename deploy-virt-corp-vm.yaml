@@ -24,7 +24,7 @@
         running: true
         labels:
           app: "{{ vm_name }}"
-          vm.kubevirt.io/template: virt-corp-rhel9-build
+          vm.kubevirt.io/template: rhel9-server-medium
           vm.kubevirt.io/template.namespace: openshift
           flavor.template.kubevirt.io/medium: "true"
           os.template.kubevirt.io/rhel9.0: "true"
@@ -33,10 +33,10 @@
           os.template.kubevirt.io/rhel9.3: "true"
           os.template.kubevirt.io/rhel9.4: "true"
           os.template.kubevirt.io/rhel9.5: "true"
-          workload.template.kubevirt.io/server: "false"
+          workload.template.kubevirt.io/server: "true"
         annotations:
-          template.kubevirt.io/provider: "virt-corp"
-          template.kubevirt.io/provider-url: "https://www.virt-corp.com"
+          template.kubevirt.io/provider: "Red Hat"
+          template.kubevirt.io/provider-url: "https://www.redhat.com"
         data_volume_templates:
           - metadata:
               name: rootdisk
