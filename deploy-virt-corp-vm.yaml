@@ -1,0 +1,102 @@
+---
+- name: Create VM using kubevirt_vm module
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    api_key: 
+    vm_name:              # Replace with your desired VM name
+    vm_namespace:           # Replace with your target namespace
+    cloud_user_password:   # Replace with a secure password
+    datasource_name: rhel9-soe   # Name of the DataSource
+    datasource_namespace: 'openshift-virtualization-os-images'  # Namespace of the DataSource
+    vm_disk_size: 30Gi
+    vm_mem: 2Gi
+    vm_cpu: 1
+
+
+  tasks:
+    - name: Create VM using kubevirt_vm module
+      redhat.openshift_virtualization.kubevirt_vm:
+        state: present
+        name: "{{ vm_name }}"
+        namespace: "{{ vm_namespace }}"
+        running: true
+        labels:
+          app: "{{ vm_name }}"
+          vm.kubevirt.io/template: virt-corp-rhel9-build
+          vm.kubevirt.io/template.namespace: openshift
+          flavor.template.kubevirt.io/medium: "true"
+          os.template.kubevirt.io/rhel9.0: "true"
+          os.template.kubevirt.io/rhel9.1: "true"
+          os.template.kubevirt.io/rhel9.2: "true"
+          os.template.kubevirt.io/rhel9.3: "true"
+          os.template.kubevirt.io/rhel9.4: "true"
+          os.template.kubevirt.io/rhel9.5: "true"
+          workload.template.kubevirt.io/server: "true"
+        annotations:
+          template.kubevirt.io/provider: "virt-corp"
+          template.kubevirt.io/provider-url: "https://www.virt-corp.com"
+        data_volume_templates:
+          - metadata:
+              name: rootdisk
+            spec:
+              sourceRef:
+                kind: DataSource
+                name: "{{ datasource_name }}" 
+                namespace: "{{ datasource_namespace }}" 
+              storage:
+                accessModes:
+                  - ReadWriteOnce
+                resources:
+                  requests:
+                    storage: "{{ vm_disk_size }}" 
+        spec:
+          domain:
+            cpu:
+              sockets: 1
+              cores: "{{ vm_cpu }}"
+              threads: 1
+            resources:
+              requests:
+                memory: "{{ vm_mem }}"
+            devices:
+              disks:
+                - name: rootdisk
+                  disk:
+                    bus: virtio
+                - name: cloudinitdisk
+                  disk:
+                    bus: virtio
+              interfaces:
+                - name: default
+                  masquerade: {}
+              rng: {}
+            features:
+              acpi: {}
+              smm:
+                enabled: true
+            firmware:
+              bootloader:
+                efi: {}
+            machine:
+              type: q35
+          volumes:
+            - name: rootdisk
+              dataVolume:
+                name: rootdisk
+            - name: cloudinitdisk
+              cloudInitNoCloud:
+                userData: |
+                  #cloud-config
+                  user: johan
+                  password: {{ cloud_user_password }}
+                  chpasswd:
+                    expire: false
+          networks:
+            - name: default
+              pod: {}
+
+    - name: Wait until the VirtualMachineInstance is ready
+      ansible.builtin.wait_for:
+        timeout: "{{ provisioning_timeout }}"
