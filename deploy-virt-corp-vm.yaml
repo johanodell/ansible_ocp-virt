@@ -66,6 +66,8 @@
               interfaces:
                 - name: default
                   masquerade: {}
+                - name: bridge-network
+                  bridge: {}
               rng: {}
             features:
               acpi: {}
@@ -91,6 +93,9 @@
           networks:
             - name: default
               pod: {}
+            - name: bridge-network
+              multus:
+                networkName: labnet
 
     - name: Wait until the VirtualMachineInstance is ready
       ansible.builtin.wait_for:
