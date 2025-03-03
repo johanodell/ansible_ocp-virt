@@ -1,0 +1,43 @@
+---
+- name: Update DNS via Amazon Route53
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+    # Lista över de (sub)domäner du vill uppdatera i Route53
+    hostnames:
+      - "klafs.codell.io"
+
+    # Zonnamn på Route53 (toppdomänen eller hosted zone som matchar "hostnames" ovan)
+    route53_zone: "codell.io"
+
+    # TTL som ska sättas på dina DNS-poster
+    route53_ttl: 300
+
+  tasks:
+    - name: Get my public IP
+      set_fact:
+        myip: "{{ lookup('community.general.dig', 'myip.opendns.com', '@resolver1.opendns.com')}}"
+
+    - name: Get IP currently set in Route53 DNS (via local dig)
+      set_fact:
+        dnsip: "{{ lookup('community.general.dig', hostnames[0])}}"
+
+    - name: Print my public IP
+      debug:
+        msg: "My public IP is: {{ myip }}"
+
+    - name: Print IP currently set in DNS
+      debug:
+        msg: "DNS IP is: {{ dnsip }}"
+
+    - name: Update DNS record in Route53 if IP changed
+      amazon.aws.route53:
+        zone: "{{ route53_zone }}"
+        record: "{{ item }}"
+        type: A
+        ttl: "{{ route53_ttl }}"
+        value: "{{ myip }}"
+        overwrite: yes
+      with_items: "{{ hostnames }}"
+      when: myip != dnsip
