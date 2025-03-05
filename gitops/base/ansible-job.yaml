@@ -1,7 +1,6 @@
 ---
 apiVersion: tower.ansible.com/v1alpha1
 kind: AnsibleWorkflow
-#kind: AnsibleJob
 metadata:
   name: rhel9-gitops1-1
   namespace: aap
@@ -12,6 +11,5 @@ spec:
     vm_name: rhel9-gitops1-1
   connection_secret: controller-access
   workflow_template_name: "gitops-post-configuraiton-workflow"
-  #job_template_name: "gitops-rhsm"
-  inventory: openshift # Inventory prompt on launch needs to be enabled
+  inventory: mothershift # Inventory prompt on launch needs to be enabled
   
