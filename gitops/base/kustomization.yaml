@@ -1,4 +1,4 @@
 resources:
-- NetworkAttachementDefinition.yml
+- NetworkAttachementDefinition.yaml
 - rhel9.yaml
 - ansible-job.yaml
